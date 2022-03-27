@@ -1,0 +1,11 @@
+ls:
+  /*/:
+    .js: kebab-case
+    .ts: kebab-case
+    .tsx: PascalCase | kebab-case
+    .d.ts: kebab-case
+
+ignore:
+  - .git
+  - node_modules
+  - build

@@ -1,0 +1,37 @@
+# EXAMPLE USAGE
+# Refer for explanation to following link:
+# https://github.com/evilmartians/lefthook/blob/master/docs/full_guide.md
+
+pre-commit:
+  parallel: true
+  commands:
+    type-check:
+      glob: '*.{ts,tsx}'
+      run: yarn typecheck
+    eslint:
+      glob: '*.{js,ts,jsx,tsx}'
+      run: yarn fix:eslint {staged_files}
+    prettier:
+      glob: '*.{js,ts,jsx,tsx,json,css,html,yml,md}'
+      run: yarn fix:prettier {staged_files}
+
+commit-msg:
+  parallel: true
+  commands:
+    lint-commit-msg:
+      run: yarn commitlint
+
+pre-push:
+  parallel: true
+  commands:
+    lslint:
+      run: yarn lslint
+    test:
+      files: git diff --name-only @{push}
+      glob: '*.{js,ts,jsx,tsx}'
+      run: yarn test:ci {staged_files}
+    packages-audit:
+      run: yarn audit
+    fix:
+      glob: '*.{js,ts,jsx,tsx,json,css,html,yml,md,mdx}'
+      run: yarn fix && git add {staged_files}
