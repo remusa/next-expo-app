@@ -1,10 +1,6 @@
 {
   "name": "solito-blank",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "devDependencies": {
     "@arkweid/lefthook": "^0.7.7",
     "@commitlint/cli": "^16.2.3",
@@ -25,7 +21,7 @@
   },
   "scripts": {
     "native": "cd apps/expo && expo start",
-    "web": "cd apps/next && yarn next",
+    "web": "cd apps/next && pnpm next",
     "dev": "run-p native web",
     "build": "",
     "build:ci": "",
@@ -35,23 +31,27 @@
     "test:coverage": "vitest run --coverage",
     "test:test": "vitest run",
     "test:ci": "cross-env NODE_ENV=production vitest related --passWithNoTests",
-    "setup": "yarn --silent && yarn build",
+    "setup": "pnpm --silent && pnpm build",
     "clean": "run-p clean:*",
     "clean:build": "rm -rf build/ dist/",
     "clean:deps": "rm -rf node_modules",
-    "deps:check": "npx npm-check -u",
-    "deps:upgrade:all": "npx ncu -u --doctor",
+    "deps:check": "pnpx npm-check -u",
+    "deps:upgrade:all": "pnpx ncu -u --doctor",
     "typecheck": "tsc -noEmit --preserveWatchOutput",
-    "typecheck:watch": "yarn typecheck -- -w",
+    "typecheck:watch": "pnpm typecheck -- -w",
     "lslint": "node_modules/.bin/ls-lint",
     "prettier": "prettier --ignore-path .gitignore --loglevel=silent \"**/*.+(js|jsx|ts|tsx|json|css|html|md|mdx)\"",
     "eslint": "eslint --ignore-path .gitignore --quiet .",
     "lint": "run-p -r lslint typecheck prettier eslint",
-    "fix:prettier": "yarn prettier -- --write",
-    "fix:eslint": "yarn eslint -- --cache --fix",
+    "fix:prettier": "pnpm prettier -- --write",
+    "fix:eslint": "pnpm eslint -- --cache --fix",
     "fix": "run-p -r fix:prettier fix:eslint",
-    "commitlint": "npx --no -- commitlint --edit $1",
+    "commitlint": "pnpx --no -- commitlint --edit '$1'",
     "version:init": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
+  },
+  "engines": {
+    "node": ">= 16.0.0",
+    "npm": ">= 8.0.0"
   }
 }
