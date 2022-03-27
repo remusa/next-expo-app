@@ -1,13 +1,12 @@
-# EXAMPLE USAGE
-# Refer for explanation to following link:
 # https://github.com/evilmartians/lefthook/blob/master/docs/full_guide.md
 
 pre-commit:
   parallel: true
   commands:
     type-check:
+      files: git diff --name-only @{push}
       glob: '*.{ts,tsx}'
-      run: yarn typecheck
+      run: yarn typecheck {staged_files}
     eslint:
       glob: '*.{js,ts,jsx,tsx}'
       run: yarn fix:eslint {staged_files}
@@ -26,6 +25,9 @@ pre-push:
   commands:
     lslint:
       run: yarn lslint
+    type-check:
+      glob: '*.{ts,tsx}'
+      run: yarn typecheck
     test:
       files: git diff --name-only @{push}
       glob: '*.{js,ts,jsx,tsx}'
@@ -33,5 +35,5 @@ pre-push:
     packages-audit:
       run: yarn audit
     fix:
-      glob: '*.{js,ts,jsx,tsx,json,css,html,yml,md,mdx}'
+      glob: '*.{js,ts,jsx,tsx,json,css,html,yaml,yml,md,mdx}'
       run: yarn fix && git add {staged_files}
